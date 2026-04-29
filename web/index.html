@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrioLingo — Universal Text Transformer & AI Security Toolkit</title>
+    <meta name="description" content="60+ text transforms, steganography, homoglyph attacks, and prompt injection detection — running entirely in your browser via WebAssembly.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+</head>
+<body>
+    <!-- ═══ NAVBAR ═══ -->
+    <nav id="navbar">
+        <div class="nav-left">
+            <span class="logo">🐍⚡ <strong>TrioLingo</strong></span>
+            <span class="version-badge">v0.1.0</span>
+        </div>
+        <div class="nav-center">
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" id="searchInput" placeholder="Search 60 transforms..." autocomplete="off">
+                <div id="searchResults" class="search-results hidden"></div>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button id="analyzeBtn" class="nav-btn accent-btn" title="Run full analysis">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Analyze
+            </button>
+            <a href="https://github.com/VidyaBodepudi/TrioLingo" target="_blank" class="nav-btn ghost-btn" title="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+        </div>
+    </nav>
+
+    <div id="app">
+        <!-- ═══ SIDEBAR ═══ -->
+        <aside id="sidebar">
+            <div id="categoryList"></div>
+        </aside>
+
+        <!-- ═══ MAIN WORKSPACE ═══ -->
+        <main id="workspace">
+            <!-- Pipeline Builder -->
+            <section id="pipelineBuilder" class="glass-card">
+                <div class="pipeline-header">
+                    <span class="section-label">Pipeline</span>
+                    <div class="pipeline-actions">
+                        <button id="pipelineRunBtn" class="pill-btn accent" title="Run pipeline">▶ Run</button>
+                        <button id="pipelineReverseBtn" class="pill-btn" title="Run in reverse">⟲ Reverse</button>
+                        <button id="pipelineClearBtn" class="pill-btn danger" title="Clear pipeline">✕ Clear</button>
+                    </div>
+                </div>
+                <div id="pipelineChips" class="pipeline-chips">
+                    <span class="pipeline-placeholder">Click transforms to build a chain...</span>
+                </div>
+            </section>
+
+            <!-- Editor Panels -->
+            <section id="editorPanels">
+                <div class="editor-panel glass-card" id="inputPanel">
+                    <div class="panel-header">
+                        <span class="panel-label">Input</span>
+                        <div class="panel-actions">
+                            <button id="pasteBtn" class="icon-btn" title="Paste from clipboard">📋</button>
+                            <button id="clearInputBtn" class="icon-btn" title="Clear">✕</button>
+                        </div>
+                    </div>
+                    <textarea id="inputText" placeholder="Enter text to transform..." spellcheck="false"></textarea>
+                    <div class="panel-status">
+                        <span id="inputStats">Chars: 0 | Words: 0</span>
+                        <div class="file-drop-hint" id="fileDropHint">or drop a file</div>
+                    </div>
+                </div>
+
+                <div class="action-column">
+                    <button id="encodeBtn" class="action-btn encode-btn" title="Encode →">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                    <button id="decodeBtn" class="action-btn decode-btn" title="← Decode">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button id="swapBtn" class="action-btn swap-btn" title="Swap ⇄">⇄</button>
+                </div>
+
+                <div class="editor-panel glass-card" id="outputPanel">
+                    <div class="panel-header">
+                        <span class="panel-label">Output</span>
+                        <div class="panel-actions">
+                            <button id="copyBtn" class="icon-btn" title="Copy to clipboard">📋</button>
+                            <button id="downloadBtn" class="icon-btn" title="Download">⬇</button>
+                        </div>
+                    </div>
+                    <textarea id="outputText" placeholder="Transformed output appears here..." readonly spellcheck="false"></textarea>
+                    <div class="panel-status">
+                        <span id="outputStats">Chars: 0 | Tokens: ~0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Parameter Panel -->
+            <section id="paramPanel" class="glass-card hidden">
+                <div class="panel-header">
+                    <span class="panel-label" id="paramTransformName">Parameters</span>
+                    <button id="closeParamBtn" class="icon-btn">✕</button>
+                </div>
+                <div id="paramControls"></div>
+            </section>
+
+            <!-- Analysis Dashboard -->
+            <section id="analysisDashboard" class="hidden">
+                <div class="analysis-header">
+                    <span class="section-label">Analysis Results</span>
+                    <div>
+                        <button id="exportReportBtn" class="pill-btn" title="Export JSON">⬇ Export JSON</button>
+                        <button id="closeAnalysisBtn" class="icon-btn">✕</button>
+                    </div>
+                </div>
+                <div class="analysis-grid">
+                    <div class="analysis-card glass-card" id="piCard">
+                        <div class="card-header"><span class="card-icon">🛡️</span> Prompt Injection</div>
+                        <div class="risk-badge" id="piRisk">—</div>
+                        <div class="card-body" id="piBody"></div>
+                    </div>
+                    <div class="analysis-card glass-card" id="hgCard">
+                        <div class="card-header"><span class="card-icon">👁️</span> Homoglyph</div>
+                        <div class="risk-badge" id="hgRisk">—</div>
+                        <div class="card-body" id="hgBody"></div>
+                    </div>
+                    <div class="analysis-card glass-card" id="stCard">
+                        <div class="card-header"><span class="card-icon">🕵️</span> Steganography</div>
+                        <div class="risk-badge" id="stRisk">—</div>
+                        <div class="card-body" id="stBody"></div>
+                    </div>
+                    <div class="analysis-card glass-card" id="enCard">
+                        <div class="card-header"><span class="card-icon">📊</span> Entropy</div>
+                        <div class="entropy-value" id="enValue">—</div>
+                        <div class="card-body" id="enBody"></div>
+                    </div>
+                    <div class="analysis-card glass-card" id="ucCard">
+                        <div class="card-header"><span class="card-icon">🔬</span> Unicode</div>
+                        <div class="risk-badge" id="ucRisk">—</div>
+                        <div class="card-body" id="ucBody"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast notifications -->
+    <div id="toastContainer"></div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

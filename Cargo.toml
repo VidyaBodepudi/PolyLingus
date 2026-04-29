@@ -1,0 +1,57 @@
+[package]
+name = "triolingo"
+version = "0.1.0"
+edition = "2021"
+description = "Universal text transformer, steganography engine, and AI red-teaming toolkit"
+license = "AGPL-3.0"
+authors = ["VidyaBodepudi"]
+keywords = ["text-transform", "steganography", "obfuscation", "unicode", "security"]
+categories = ["command-line-utilities", "encoding", "text-processing"]
+
+[features]
+default = ["cli", "native-image"]
+cli = ["dep:clap", "dep:colored", "dep:indicatif", "dep:rayon"]
+wasm = ["dep:wasm-bindgen", "dep:serde-wasm-bindgen", "getrandom/js"]
+native-image = ["dep:image"]
+
+[dependencies]
+# === Always included (WASM-safe) ===
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+data-encoding = "2"
+unicode-normalization = "0.1"
+unicode-segmentation = "1"
+regex = "1"
+rand = "0.8"
+getrandom = "0.2"
+thiserror = "1"
+anyhow = "1"
+
+# === CLI-only ===
+clap = { version = "4", features = ["derive"], optional = true }
+colored = { version = "2", optional = true }
+indicatif = { version = "0.17", optional = true }
+rayon = { version = "1", optional = true }
+
+# === Native image stego ===
+image = { version = "0.25", optional = true }
+
+# === Audio (CLI-only, unused in WASM) ===
+hound = "3"
+
+# === WASM-only ===
+wasm-bindgen = { version = "0.2", optional = true }
+serde-wasm-bindgen = { version = "0.6", optional = true }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
