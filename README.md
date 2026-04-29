@@ -6,7 +6,7 @@
 
 ## What Is This?
 
-TrioLingo is a high-performance CLI tool for text transformation, encoding, steganography, and AI security research. It implements **60 transforms** across 10 categories, including features far beyond what [P4RS3LT0NGV3](https://github.com/Arcanum-Sec/P4RS3LT0NGV3) offers:
+TrioLingo is a high-performance CLI tool for text transformation, encoding, steganography, and AI security research. It implements **60 transforms** across 10 categories;
 
 - 🧠 **Homoglyph Attack Engine** — Generate & detect Unicode confusable attacks (TR39)
 - 🔍 **Prompt Injection Scanner** — 20+ patterns: instruction overrides, DAN, role injection
@@ -95,9 +95,9 @@ src/
 └── payload/        # Per-word randomizer, fragment/interleave/reassemble engine
 ```
 
-## What TrioLingo Adds Over Parseltongue
+## What TrioLingo
 
-| Feature | Parseltongue | TrioLingo |
+| Feature | | TrioLingo |
 |---|---|---|
 | Transforms | ~20 | **60** |
 | Language | JavaScript (browser) | **Rust (native CLI)** |
@@ -114,4 +114,4 @@ src/
 
 ## License
 
-AGPL-3.0 — See [LICENSE](LICENSE) for details.
+
