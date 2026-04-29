@@ -7,11 +7,13 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    --bg-primary: #07070d;
-    --bg-secondary: #0e0e18;
-    --bg-surface: #141422;
-    --bg-editor: #0a0a12;
-    --bg-hover: #1a1a2e;
+    --bg-primary: #000000;
+    --bg-secondary: #08080f;
+    --bg-surface: #0e0e1a;
+    --bg-editor: #050508;
+    --bg-hover: #141422;
+
+    --accent-neon-purple: #8A00C4;
 
     --accent-cyan: #00d4ff;
     --accent-purple: #a855f7;
@@ -282,6 +284,10 @@ html, body {
     flex-direction: column;
     gap: 8px;
     flex-shrink: 0;
+    border: 1.5px solid var(--accent-neon-purple);
+}
+#pipelineBuilder .section-label {
+    color: var(--accent-neon-purple);
 }
 .pipeline-header {
     display: flex;
