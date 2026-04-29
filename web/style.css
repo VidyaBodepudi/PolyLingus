@@ -18,6 +18,7 @@
     --accent-pink: #e94560;
     --accent-green: #22c55e;
     --accent-amber: #f59e0b;
+    --accent-yellow: #ffd700;
 
     --text-primary: #e4e4ef;
     --text-secondary: #6b6b8a;
@@ -31,6 +32,7 @@
 
     --glow-cyan: 0 0 24px rgba(0, 212, 255, 0.12);
     --glow-purple: 0 0 24px rgba(168, 85, 247, 0.12);
+    --glow-yellow: 0 0 24px rgba(255, 215, 0, 0.12);
     --shadow-card: 0 4px 32px rgba(0, 0, 0, 0.5);
 
     --sidebar-width: 250px;
@@ -365,7 +367,88 @@ html, body {
     display: flex;
     flex-direction: column;
     min-width: 0;
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
 }
+
+/* ── Input Panel: Electric Blue Glow ── */
+.editor-panel.input-panel {
+    border: 1.5px solid rgba(0, 212, 255, 0.5);
+    box-shadow:
+        0 0 8px rgba(0, 212, 255, 0.15),
+        0 0 24px rgba(0, 212, 255, 0.08),
+        0 0 60px rgba(0, 212, 255, 0.04),
+        inset 0 0 30px rgba(0, 212, 255, 0.03);
+    animation: inputHaze 4s ease-in-out infinite;
+}
+.editor-panel.input-panel .panel-header {
+    border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+}
+.editor-panel.input-panel .panel-label {
+    color: var(--accent-cyan);
+}
+.editor-panel.input-panel .panel-status {
+    border-top: 1px solid rgba(0, 212, 255, 0.1);
+}
+@keyframes inputHaze {
+    0%, 100% {
+        box-shadow:
+            0 0 8px rgba(0, 212, 255, 0.15),
+            0 0 24px rgba(0, 212, 255, 0.08),
+            0 0 60px rgba(0, 212, 255, 0.04),
+            inset 0 0 30px rgba(0, 212, 255, 0.03);
+        border-color: rgba(0, 212, 255, 0.5);
+    }
+    50% {
+        box-shadow:
+            0 0 12px rgba(0, 212, 255, 0.25),
+            0 0 36px rgba(0, 212, 255, 0.12),
+            0 0 80px rgba(0, 212, 255, 0.06),
+            inset 0 0 40px rgba(0, 212, 255, 0.04);
+        border-color: rgba(0, 212, 255, 0.7);
+    }
+}
+
+/* ── Output Panel: Electric Yellow Glow ── */
+.editor-panel.output-panel {
+    border: 1.5px solid rgba(255, 215, 0, 0.45);
+    box-shadow:
+        0 0 8px rgba(255, 215, 0, 0.12),
+        0 0 24px rgba(255, 215, 0, 0.07),
+        0 0 60px rgba(255, 215, 0, 0.03),
+        inset 0 0 30px rgba(255, 215, 0, 0.02);
+    animation: outputHaze 4s ease-in-out infinite;
+    animation-delay: 2s;
+}
+.editor-panel.output-panel .panel-header {
+    border-bottom: 1px solid rgba(255, 215, 0, 0.12);
+}
+.editor-panel.output-panel .panel-label {
+    color: var(--accent-yellow);
+}
+.editor-panel.output-panel .panel-status {
+    border-top: 1px solid rgba(255, 215, 0, 0.08);
+}
+@keyframes outputHaze {
+    0%, 100% {
+        box-shadow:
+            0 0 8px rgba(255, 215, 0, 0.12),
+            0 0 24px rgba(255, 215, 0, 0.07),
+            0 0 60px rgba(255, 215, 0, 0.03),
+            inset 0 0 30px rgba(255, 215, 0, 0.02);
+        border-color: rgba(255, 215, 0, 0.45);
+    }
+    50% {
+        box-shadow:
+            0 0 12px rgba(255, 215, 0, 0.22),
+            0 0 36px rgba(255, 215, 0, 0.1),
+            0 0 80px rgba(255, 215, 0, 0.05),
+            inset 0 0 40px rgba(255, 215, 0, 0.03);
+        border-color: rgba(255, 215, 0, 0.65);
+    }
+}
+
 .panel-header {
     display: flex;
     justify-content: space-between;
