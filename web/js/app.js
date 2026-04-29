@@ -244,11 +244,11 @@ function doDecode() {
 // ═══ Analysis ═══
 function runAnalysis() {
     const input = document.getElementById('inputText').value;
-    if (!input) return toast('Enter text to analyze', 'error');
+    if (!input.trim()) { resetAnalysis(); return; }
 
     const report = JSON.parse(analyze_all(input));
+
     const dash = document.getElementById('analysisDashboard');
-    dash.classList.remove('hidden');
 
     // Prompt Injection
     const piRisk = document.getElementById('piRisk');
@@ -297,6 +297,33 @@ function runAnalysis() {
         : '✓ No hidden Unicode';
 
     toast('Analysis complete', 'success');
+}
+
+function resetAnalysis() {
+    document.getElementById('piRisk').textContent = '—';
+    document.getElementById('piRisk').className = 'risk-badge risk-clean';
+    document.getElementById('piBody').textContent = 'Enter text to scan';
+    document.getElementById('hgRisk').textContent = '—';
+    document.getElementById('hgRisk').className = 'risk-badge risk-clean';
+    document.getElementById('hgBody').textContent = 'Enter text to scan';
+    document.getElementById('stRisk').textContent = '—';
+    document.getElementById('stRisk').className = 'risk-badge risk-clean';
+    document.getElementById('stBody').textContent = 'Enter text to scan';
+    document.getElementById('enValue').textContent = '—';
+    document.getElementById('enValue').className = 'entropy-value risk-clean';
+    document.getElementById('enBody').textContent = 'Enter text to scan';
+    document.getElementById('ucRisk').textContent = '—';
+    document.getElementById('ucRisk').className = 'risk-badge risk-clean';
+    document.getElementById('ucBody').textContent = 'Enter text to scan';
+}
+
+// Debounced auto-analysis
+let analysisTimer = null;
+function scheduleAnalysis() {
+    clearTimeout(analysisTimer);
+    const input = document.getElementById('inputText').value;
+    if (!input.trim()) { resetAnalysis(); return; }
+    analysisTimer = setTimeout(() => runAnalysis(), 500);
 }
 
 // ═══ Search ═══
@@ -373,9 +400,6 @@ function bindEvents() {
 
     // Analysis
     document.getElementById('analyzeBtn').addEventListener('click', runAnalysis);
-    document.getElementById('closeAnalysisBtn').addEventListener('click', () => {
-        document.getElementById('analysisDashboard').classList.add('hidden');
-    });
     document.getElementById('exportReportBtn').addEventListener('click', () => {
         const input = document.getElementById('inputText').value;
         if (!input) return;
@@ -418,8 +442,11 @@ function bindEvents() {
         document.getElementById('paramPanel').classList.add('hidden');
     });
 
-    // Live stats
-    document.getElementById('inputText').addEventListener('input', updateStats);
+    // Live stats + auto-analysis
+    document.getElementById('inputText').addEventListener('input', () => {
+        updateStats();
+        scheduleAnalysis();
+    });
 
     // Search
     setupSearch();
