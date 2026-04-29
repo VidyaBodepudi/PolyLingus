@@ -1,12 +1,38 @@
-# TrioLingo 🐍⚡
+# PolyLingo <-- Still figuring out a name 🐍⚡
 
-**Universal text transformer, steganography engine & AI red-teaming toolkit** — written in Rust.
+**Universal text transformer, steganography engine & something about aliens** — written in Rust.
 
-> Parseltongue, reforged. Faster, more comprehensive, with offensive *and* defensive capabilities.
+> Bibbidi-Babely-Boo, reforged. Faster, more comprehensive, with all sorts of chaos and whimsy... :)
+
+Try it here! https://vidyabodepudi.github.io/PolyLingus/
+
+### _Speak in Tongues_ 
+### _Speak In Tongues Or Get Tongued_ 
+
+Universal text translator made in rust, compiled to WASM.
+
+## Help me think of a proper product tagline:
+
+Decode, translate, breath, speak — repeat.
+
+Decode, translate, tongue — repeat
+
+One translator to tongue your encodings
+
+Everything in tongues. Pwn anything
+Translate everything. Pwn anything.
+
+You know, I lingo, You lingo, He she me lingo, lingo, Lingoing, We'll have thee lingo, Lingorama, Lingualogy, The study of Lungo? It's first grade, L33tBob!
+
+2ez4spek OR 3ez5speak
+
+## Help me think of what to call this
+
+Babelboi | L33tsp34k | lingol33t | UTF-8-Babel | Cosmolingolical | GrokNspiek | BabeLnGrook | CodecCoven
 
 ## What Is This?
 
-TrioLingo is a high-performance CLI tool for text transformation, encoding, steganography, and AI security research. It implements **60 transforms** across 10 categories, including features far beyond what [P4RS3LT0NGV3](https://github.com/Arcanum-Sec/P4RS3LT0NGV3) offers:
+Dr. SpeakEZPZ is a high-performance CLI tool for text transformation, encoding, steganography, and AI security research. It implements **60 transforms** across 10 categories:
 
 - 🧠 **Homoglyph Attack Engine** — Generate & detect Unicode confusable attacks (TR39)
 - 🔍 **Prompt Injection Scanner** — 20+ patterns: instruction overrides, DAN, role injection
@@ -95,9 +121,9 @@ src/
 └── payload/        # Per-word randomizer, fragment/interleave/reassemble engine
 ```
 
-## What TrioLingo Adds Over Parseltongue
+## What dingoLingo does
 
-| Feature | Parseltongue | TrioLingo |
+| Feature | The others | DonkusLaGronkus |
 |---|---|---|
 | Transforms | ~20 | **60** |
 | Language | JavaScript (browser) | **Rust (native CLI)** |
@@ -114,4 +140,4 @@ src/
 
 ## License
 
-AGPL-3.0 — See [LICENSE](LICENSE) for details.
+APACHE 2.0 - For freedom. For Shenanigans. Groka Johns. 
