@@ -258,11 +258,16 @@ impl Transform for Ascii85Transform {
         let chars: Vec<u8> = expanded.bytes().filter(|b| (33..=117).contains(b)).collect();
         let mut result = Vec::new();
         for chunk in chars.chunks(5) {
-            let mut val: u32 = 0;
+            let out_len = if chunk.len() == 5 { 4 } else { chunk.len() - 1 };
+            // Pad partial chunks with 'u' (value 84) per ASCII85 spec
+            let mut padded = [117u8; 5]; // 'u' = 84 + 33
             for (i, &b) in chunk.iter().enumerate() {
+                padded[i] = b;
+            }
+            let mut val: u32 = 0;
+            for (i, &b) in padded.iter().enumerate() {
                 val += (b as u32 - 33) * 85u32.pow(4 - i as u32);
             }
-            let out_len = if chunk.len() == 5 { 4 } else { chunk.len() - 1 };
             for i in 0..out_len {
                 result.push((val >> (24 - i * 8) & 0xff) as u8);
             }

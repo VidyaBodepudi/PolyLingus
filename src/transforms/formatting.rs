@@ -88,12 +88,16 @@ impl Transform for Vaporwave {
         }).collect::<String>().trim_end().to_string())
     }
     fn decode(&self, input: &str, _p: &HashMap<String, String>) -> TransformResult {
-        let stripped: String = input.chars().filter(|c| *c != ' ' && *c != '\u{3000}').collect();
-        Ok(stripped.chars().map(|c| {
-            if (0xFF01..=0xFF5E).contains(&(c as u32)) {
-                char::from_u32(c as u32 - 0xFF01 + 0x21).unwrap_or(c)
-            } else { c }
-        }).collect())
+        // Double space = original word boundary, single space = character padding
+        let words: Vec<&str> = input.split("  ").collect();
+        let decoded_words: Vec<String> = words.iter().map(|word| {
+            word.chars().filter(|c| *c != ' ' && *c != '\u{3000}').map(|c| {
+                if (0xFF01..=0xFF5E).contains(&(c as u32)) {
+                    char::from_u32(c as u32 - 0xFF01 + 0x21).unwrap_or(c)
+                } else { c }
+            }).collect::<String>()
+        }).collect();
+        Ok(decoded_words.join(" "))
     }
 }
 
